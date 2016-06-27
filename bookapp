@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# Use ./bookapp "Alice in wonderland" to launch the app
+require 'googlebooks'
+
+class GoogleBookSearch
+
+  def self.search(search_input)
+    books = GoogleBooks.search(search_input)
+
+    puts "Books for \'#{search_input}\':"
+    books.each_with_index do |book, i|
+      puts "#{i + 1}: #{book.title}"
+    end
+  end
+end
+
+n_args = ARGV.count.to_i
+if n_args < 1
+  search_input = STDIN.gets.gsub!("\n", "")
+elsif n_args == 1
+  search_input = ARGV.first
+else
+  raise "Wrong arguements"
+end
+
+GoogleBookSearch.search(search_input)
