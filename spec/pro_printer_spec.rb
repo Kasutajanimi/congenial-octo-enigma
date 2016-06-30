@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../lib/team'
+Dir["./lib/*.rb"].each { |file| require file }
 
 describe ProPrinter do
   let(:team) { Team.new }
