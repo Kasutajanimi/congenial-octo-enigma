@@ -17,17 +17,31 @@ class Team
     if options[:printer].nil?
       printer = ProPrinter.new   # ProPrinter is de-facto default printer
     else
-      printer = self.class.const_get(options[:printer].to_s.capitalize + "Printer").new
-      options.delete(:printer)
+      if available_printers.include?(options[:printer])
+        printer = self.class.const_get(options[:printer].to_s.capitalize + "Printer").new
+        options.delete(:printer)
+      else
+        raise "Unrecognized printer"
+      end
     end
 
     printer.print(members_names, options)
+  end
+
+  private
+
+  def available_printers
+    %i( pro reverse presentation funny )
   end
 end
 
 class ProPrinter
   def print(members_names, options = {})
     options[:limit].nil? ? limit = 10 : limit = options[:limit]
+
+
+    #puts "members_namesA"
+    #puts members_names.take(limit).each { |name| puts name.capitalize + "MMM" }
 
     members_names.take(limit).each { |name| puts name.capitalize }
   end
